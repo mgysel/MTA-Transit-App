@@ -1,0 +1,35 @@
+{
+  "name": "transportation_app",
+  "version": "1.0.0",
+  "description": "transportation project",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgysel/Meetup-Project.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mgysel/Meetup-Project/issues"
+  },
+  "homepage": "https://github.com/mgysel/Meetup-Project#readme",
+  "devDependencies": {
+    "browser-sync": "^2.14.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-jasmine-phantom": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0"
+  },
+  "keywords": [
+    "transportation",
+    "app"
+  ]
+}
