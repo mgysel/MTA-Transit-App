@@ -2,39 +2,37 @@
 <html class="full-width">
 	<head>
 		<title>Maps Index</title>
-		<meta name="viewport" content="initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="utf-8">
-		<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 		<link rel="stylesheet" href="css/style.css">
         <script src="js/all.js"></script>
 	</head>
 	<body>
         <div class="container-fluid">
             <div class="row">
-                <nav class="title col-md-12 nav navbar-fixed-top">
-                    <h1 class="title-text center-block text-center">Title</h1>
+                <nav class="title nav navbar-fixed-top">
+                    <h1 class="title-text text-center">MTA Subway</h1>
                 </nav>
             </div>
+            <div class="backgroundimage"></div>
             <div class="row main">
-            	<div class="sidebar col-md-3">
-            		<h1>Sidebar</h1>
-                        <label for="depart-station">
-                            <input id="depart-station" list="stations-list" class="input" type="text" placeholder="Depart Station">
-                        </label>
-                        <label for="arrive-station">
-                            <input id="depart-station" list="stations-list" class="input" type="text" placeholder="Arrive Station">
-                        </label>
-                        <datalist id="stations-list"></datalist>
-            	</div>
-            	<div class="col-md-9">
-            		<h1>Train Schedule</h1>
-                    <img src="img/subwaymap.jpg">
+            	<div class="inputs  center-block">
+                    <select id="subway-line" class="input center-block station-inputs" autofocus>
+                            <option class="first-option center-block" value="" selected>Select Route</option>
+                    </select>
+                    <select id="depart-station" class="station-inputs depart-arrive-inputs input center-block text-center">
+                        <option class="first-option" value='selectRoute'>Depart Station</option>
+                    </select>
+                    <select id="arrive-station" class="input station-inputs depart-arrive-inputs center-block text-center">
+                        <option class="first-option" value='selectRoute'>Arrive Station</option>
+                    </select>
+                    <div id="subway-times" class="center-block input">
+                    </div>
+                    <a href="MTA-transit-map.html" class="map-button text-center center-block input main-form">View Subway Map</a>
             	</div>
             </div>
             <div class="row">
-                <footer class="footers navbar-fixed-bottom">
-                	<h1>Footer</h1>
-                </footer>
+                <footer class="footers navbar-fixed-bottom"></footer>
             </div>
         </div>
 	</body>

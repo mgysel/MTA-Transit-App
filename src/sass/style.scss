@@ -1,33 +1,110 @@
-* {
-	border: 1px solid black;
-}
-
+// Omnipotent Styling
 html, body {
 	height: 100%;
-	overflow-y: hidden;
+    font-family: 'Open Sans', sans-serif;
 }
 
-/* Nav bar at top*/
+// Nav
 .nav {
-	display: block;
-	height: 100px;
-	color: #FFF;
-	background-color: #333333;
+    display: block;
+    height: 130px;
+    color: #FFF;
+    background-color: #3C5A85;
+    border-bottom: 35px solid #7187A6;
 }
 
-/*Footer bar at bottom*/
+// Title
+.title-text {
+    padding-top: 8px;
+}
+
+// Footers
 .footers {
-	height: 7%;
+    display: block;
+    height: 7%;
+    background: #3C5A85;
+    border: 1px solid black;
+}
+
+.backgroundimage:after {
+    content:"";
+    opacity: 0.3;
+    top: 0;
+    left: -400px;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    background: url(/img/subwaymap.jpg) center center no-repeat;
+    background-size: 100%;
+    background-position: 300px -500px;
+    z-index: -1;
+}
+
+// Depart and Arrive Station Inputs
+.inputs {
+    display: block;
+    margin-top: calc((100vh - ((313px + 130px + 46.33px)/2))/2;
+}
+
+.first-option {
+    color: #7e7e7e;
+}
+
+select {
+    font-size: 22px;
+    text-align-last: center;
+}
+
+.option {
+    padding-left: 20px;
+}
+
+.input option {
+    float: left;
+    font-size: 16px;
+}
+
+.station-inputs {
+    width: 350px;
+    height: 55px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    z-index: 10;
+}
+
+#next-times {
+    display: block;
+    padding: 13px 3px;
+    margin-top: 14px;
+    width: 350px;
+    border: 3px solid #3C5A85;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+// Button to view subway map.
+.map-button {
 	display: block;
-	background: #333333;
-	border: 1px solid black;
+	width: 350px;
+    height: 65px;
+    border-radius: 6px;
+    border: 1px solid black;
+    background-color: #60789C;
+    color: #fff;
+    font-size: 25px;
+    padding-top: 12px;
+    margin-top: 63px;
+    margin-bottom: 63px;
 }
 
-.sidebar {
-	padding-bottom: calc(49.9% - 100px);
+.map-button:hover {
+    background-color: #354357;
+    text-decoration: none;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
 }
 
-.main {
-	margin-top: 100px;
+.full-page-image {
+    width: 100%;
 }
-

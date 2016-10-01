@@ -5,16 +5,15 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
-var jasmine = require('gulp-jasmine-phantom');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
+var mergeStream = require('merge-stream');
 
-gulp.task('default', ['copy-html', 'copy-images', 'sass', 'css', 'lint', 'scripts'], function() {
+gulp.task('default', ['copy', 'sass', 'css', 'lint', 'scripts'], function() {
 	gulp.watch('src/sass/**/*.scss', ['sass']);
 	gulp.watch('src/css/**/*.css', ['css']);
 	gulp.watch('src/js/**/*.js', ['scripts','lint']);
-	gulp.watch('src/index.html', ['copy-html']);
+	gulp.watch('src/*.html', ['copy']);
 	gulp.watch('./dist/index.html').on('change', browserSync.reload);
 
 	browserSync.init({
@@ -23,8 +22,7 @@ gulp.task('default', ['copy-html', 'copy-images', 'sass', 'css', 'lint', 'script
 });
 
 gulp.task('dist', [
-	'copy-html',
-	'copy-images',
+	'copy',
 	'sass',
 	'css',
 	'lint',
@@ -32,19 +30,19 @@ gulp.task('dist', [
 ]);
 
 gulp.task('scripts', function() {
-	gulp.src('src/js/**/*.js')
+	gulp.src(['src/js/jquery.js', 'src/js/papaparse.min.js','src/js/gtfs.js','src/js/app.js','src/js/sw.js'])
 		.pipe(concat('all.js'))
 		.pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('copy-html', function() {
-	gulp.src('src/index.html')
-		.pipe(gulp.dest('dist'));
-});
-
-gulp.task('copy-images', function() {
-	gulp.src('src/img/*')
-		.pipe(gulp.dest('dist/img'));
+// copy over index, images, data, and serviceworker.
+gulp.task('copy', function() {
+	return mergeStream(
+    	gulp.src('src/*.html').pipe(gulp.dest('dist')),
+    	gulp.src('src/img/*').pipe(gulp.dest('dist/img')),
+    	gulp.src('src/data/*').pipe(gulp.dest('dist/data')),
+    	gulp.src('src/js/sw/*').pipe(gulp.dest('dist/js/sw'))
+  	);
 });
 
 gulp.task('sass', function() {
