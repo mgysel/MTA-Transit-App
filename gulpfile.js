@@ -30,7 +30,7 @@ gulp.task('dist', [
 ]);
 
 gulp.task('scripts', function() {
-	gulp.src(['src/js/jquery.js', 'src/js/papaparse.min.js','src/js/gtfs.js','src/js/app.js','src/js/sw.js'])
+	gulp.src(['src/js/jquery.js', 'src/js/papaparse.min.js','src/js/gtfs.js','src/js/app.js'])
 		.pipe(concat('all.js'))
 		.pipe(gulp.dest('dist/js'));
 });
@@ -40,8 +40,7 @@ gulp.task('copy', function() {
 	return mergeStream(
     	gulp.src('src/*.html').pipe(gulp.dest('dist')),
     	gulp.src('src/img/*').pipe(gulp.dest('dist/img')),
-    	gulp.src('src/data/*').pipe(gulp.dest('dist/data')),
-    	gulp.src('src/js/sw/*').pipe(gulp.dest('dist/js/sw'))
+    	gulp.src('src/data/*').pipe(gulp.dest('dist/data'))
   	);
 });
 

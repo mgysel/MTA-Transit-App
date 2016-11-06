@@ -8934,7 +8934,6 @@ $.get("../data/stops.txt", function(data) {
 		var subwayLine = $("#subway-line");
 		var departStation = $("#depart-station");
 		var arriveStation = $("#arrive-station");
-		var routeDir = "";
 		// Append all routes to route inout
 		for (var i=0; i<routeNumbers.length; i++) {
 			var thisRoute = routeNumbers[i];
@@ -8981,16 +8980,34 @@ $.get("../data/stops.txt", function(data) {
 			var arriveStaVal = arriveStation.val();
 			var departSta = departStaVal.substring(0,3);
 			var arriveSta = arriveStaVal.substring(0,3);
+			var depRouteDir = "";
+			var arrRouteDir = "";
 			if (departStaVal !== "" && arriveStaVal !== "") {
 				// determine the direction of the subway.
+				console.log(departStaVal);
+				console.log(arriveStaVal);
 				if (departSta > arriveSta) {
-					routeDir = departSta + "N";
+					depRouteDir = departSta + "N";
+					arrRouteDir = arriveSta + "N";
 				} else {
-					routeDir = departSta + "S";
+					depRouteDir = departSta + "S";
+					arrRouteDir = arriveSta + "S";
 				}
+				// console.log("depRouteDir = " + depRouteDir + " arrRouteDir = " + arrRouteDir);
+
 				var arrayNextTimes = [];
+				var travelTime = [];
+				var firstStopFirstDate;
+				var secondStopSecondDate;
 				for (var i=0; i<stopTimeData.length; i++) {
-					if (stopTimeData[i].stop == routeDir) {
+					if (stopTimeData[i].stop == arrRouteDir) {
+						secondStopSecondDate = stopTimeData[i].time[day][0];
+						secondStopSecondDate = secondStopSecondDate.substring(0,2) + secondStopSecondDate.substring(3,5);
+						console.log(secondStopSecondDate);
+					} else if (stopTimeData[i].stop == depRouteDir) {
+						// First date for finding travel time.
+						firstStopFirstDate = stopTimeData[i].time[day][0];
+						firstStopFirstDate = firstStopFirstDate.substring(0,2) + firstStopFirstDate.substring(3,5);
 						for (var j=0; j<stopTimeData[i].time[day].length; j++) {
 							var thisDate = stopTimeData[i].time[day][j];
 							var thisDateNum = thisDate.substring(0,2) + thisDate.substring(3,5);
@@ -8999,14 +9016,24 @@ $.get("../data/stops.txt", function(data) {
 						// FIX SORT SO IT IS FROM LOWEST TO HIGHEST NUMBERS.
 						arrayNextTimes.sort((function(a,b) { return a-b; }));
 						arrayNextTimes = arrayNextTimes.filter(function(x){ return x > -1; });
-						$("#subway-times").append("<p id='next-times' class='text-center main-form center-block input'>Next Subways will arrive in " + arrayNextTimes[0] + ", " + arrayNextTimes[1] + ", and " + arrayNextTimes[2] + " minutes</p>");
-						$(".map-button").css("margin-top","12px");
-						if (window.matchMedia("(max-width: 450px)").matches) {
-							$(".inputs").css("margin-top","130px");
-						} else {
-							$(".inputs").css("margin-top","calc(calc(4vh + 160px))");
-						}
+						var nextBusTime = (parseInt(dateNowNum) + parseInt(arrayNextTimes[0]));
+						nextBusTime = nextBusTime.toString();
+						nextBusTime = nextBusTime.substring(0,2) + ":" + nextBusTime.substring(2,4);
 					}
+				}
+				// Determining the travel time
+				travelTime = secondStopSecondDate - firstStopFirstDate;
+				// Determining the arrival time
+				var arrivalTime = parseInt(nextBusTime.substring(0,2) + nextBusTime.substring(3,5)) + travelTime;
+				arrivalTime = arrivalTime.toString();
+				arrivalTime = arrivalTime.substring(0,2) + ":" + arrivalTime.substring(2,4);
+				// adding the departure, travel time, and arrival to the webpage.
+				$("#subway-times").append("<p id='next-times' class='text-center main-form center-block input'>Depart Time: " + nextBusTime + "<br>Duration: " + travelTime + " minutes<br>Arrival Time: " + arrivalTime + " </p>");
+				$(".map-button").css("margin-top","12px");
+				if (window.matchMedia("(max-width: 450px)").matches) {
+					$(".inputs").css("margin-top","130px");
+				} else {
+					$(".inputs").css("margin-top","calc(calc(4vh + 160px))");
 				}
 			}
 		});
@@ -9016,7 +9043,7 @@ $.get("../data/stops.txt", function(data) {
 // Only register if the navigator is serviceWorker compatible
 if (navigator.serviceWorker) {
 	// Register the service worker
-	navigator.serviceWorker.register('js/sw.js').then(function(reg) {
+	navigator.serviceWorker.register('../sw.js').then(function(reg) {
 		// log a success
 		console.log('Registration successful');
 	}).catch(function(err) {
@@ -9024,37 +9051,3 @@ if (navigator.serviceWorker) {
 		console.log('Registration failed');
 	});
 }
-// Cache versions I don't want to delete
-var staticCacheName = 'mta-v1';
-
-// Add Install event listener to the service worker
-this.addEventListener('install', function(event) {
-	// Make sure service worker doesn't install until cache is created successfully
-	event.waitUntil(
-		// Create new cache called the value of staticCacheName
-		caches.open(staticCacheName).then(function(cache) {
-			// urls of resources to cache
-			return cache.addAll([
-				'/index.html',
-				'/MTA-transit-map.html',
-				'../data/stops.txt',
-				'../data/stop_times.txt',
-				'../img/subwaymap.jpg',
-				'../css/style.css',
-				'../js/all.js'
-			]);
-		})
-	);
-});
-
-// Respond to requests, by first hijacking the request.
-this.addEventListener('fetch', function(event) {
-	// respond to hijacked requests
-	event.respondWith(
-		// respond with the cached resource that matches the request.
-		caches.match(event.request).then(function(response) {
-			// return the response if found, or request from network if not.
-			return response || fetch(event.request);
-		})
-	);
-});
