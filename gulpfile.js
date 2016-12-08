@@ -6,6 +6,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 var mergeStream = require('merge-stream');
 
@@ -32,6 +33,7 @@ gulp.task('dist', [
 gulp.task('scripts', function() {
 	gulp.src(['src/js/jquery.js', 'src/js/papaparse.min.js','src/js/gtfs.js','src/js/app.js'])
 		.pipe(concat('all.js'))
+		.pipe(uglify('all.js'))
 		.pipe(gulp.dest('dist/js'));
 });
 

@@ -9,7 +9,7 @@ this.addEventListener('install', function(event) {
 		caches.open(staticCacheName).then(function(cache) {
 			// urls of resources to cache
 			return cache.addAll([
-				'/index.html',
+				'/',
 				'/MTA-transit-map.html',
 				'../data/stops.txt',
 				'../data/stop_times.txt',
